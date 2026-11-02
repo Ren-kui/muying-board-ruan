@@ -385,8 +385,8 @@ function renderMx() {
     for (let ci=1; ci<=20; ci++) {
       const c = numToCol(ci), addr = c+row.r, v = row.cells[c];
       if (c === 'Q') continue;  // Q列已移除，不渲染
-      if (c === 'T' && row.r!==101 && row.r!==109) continue;  // T列仅表头+总计行
-      if (row.r===109) { html += '<td class="calc2" id="mx-'+addr+'"></td>'; }
+      if (c === 'T' && row.r!==101 && row.r!==109) { html += '<td class="calc2" id="mx-'+addr+'"></td>'; }
+      else if (row.r===109) { html += '<td class="calc2" id="mx-'+addr+'"></td>'; }
       else {
         html += '<td class="ce" data-band="mx" data-addr="'+addr+'" contenteditable="true">'+escapeHtml(v==null?'':fmt(v))+'</td>';
       }
@@ -446,6 +446,10 @@ function recalcMx() {
   }
   let t=0; for (let ci=2; ci<=18; ci++) t += num('mx', numToCol(ci)+'109');
   const te=document.getElementById('mx-T109'); if(te) te.textContent=t;
+  for (let r=103; r<=108; r++) { let s=0;
+    for (let ci=2; ci<=18; ci++) s += num('mx', numToCol(ci)+r);
+    const el=document.getElementById('mx-T'+r); if(el) el.textContent=s;
+  }
 }
 
 /* ---------- 指挥台渲染 ---------- */
