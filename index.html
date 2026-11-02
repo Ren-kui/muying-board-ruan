@@ -444,10 +444,10 @@ function recalcMx() {
     for (let r=100; r<=105; r++) csum += num('mx', numToCol(ci)+r);
     const el=document.getElementById('mx-'+numToCol(ci)+'109'); if(el) el.textContent=csum;
   }
-  let t=0; for (let ci=2; ci<=18; ci++) t += num('mx', numToCol(ci)+'109');
+  let t=0; for (let ci=2; ci<=18; ci++) { const c=numToCol(ci); if(c==='Q') continue; t += num('mx', c+'109'); }
   const te=document.getElementById('mx-T109'); if(te) te.textContent=t;
   for (let r=103; r<=108; r++) { let s=0;
-    for (let ci=2; ci<=18; ci++) s += num('mx', numToCol(ci)+r);
+    for (let ci=2; ci<=18; ci++) { const c=numToCol(ci); if(c==='Q') continue; s += num('mx', c+r); }
     const el=document.getElementById('mx-T'+r); if(el) el.textContent=s;
   }
 }
