@@ -505,12 +505,13 @@ function renderDashboards() {
   const washS = rowHave(16), washL = rowHave(17);
   const washLTgt = num('main','J17');
   miniBoard('pad','🛡️ 隔尿垫（片/条）','b-todo','监控中·已开囤',
-    kpi('一次性M33×45',padM,num('main','J14'))+kpi('一次性L45×60',padL,num('main','J15'))+kpi('水洗70×100',washL,Math.max(washLTgt,1))+kpi('合计',padM+padL+washS+washL,num('main','J14')+num('main','J15')+washLTgt),
+    kpi('一次性M33×45',padM,num('main','J14'))+kpi('一次性L45×60',padL,num('main','J15'))+kpi('水洗30×45(丹赠)',washS,num('main','J16'))+kpi('水洗70×100',washL,Math.max(washLTgt,1))+kpi('合计',padM+padL+washS+washL,num('main','J14')+num('main','J15')+num('main','J16')+washLTgt),
     '<div class="row"><span class="k">一次性价线：</span><span class="price">≤0.45/片</span>（闭眼0.40）· 水洗70×100≤15/条</div><div class="row"><span class="k">分工：</span><span class="spec">一次性M</span> 主力换尿 · <span class="spec">一次性L</span> 外出垫 · <span class="spec">水洗</span> 铺床防漏（可反复洗）</div>',
     '母表14-17行：一次性M '+padM+' / L '+padL+' · 水洗30×45:'+washS+'条 / 70×100:'+washL+'条 · ⏰ cron监控M≤0.45');
   const wHave = rowHave(13), wTgt = num('main','J13');
+  const wZi = num('main','F13'), wGou = num('main','G13');
   miniBoard('wipes','💧 湿巾','b-wait','低优先·618主战场',
-    kpi('已有(自持)',wHave,wTgt)+kpi('本次目标',wTgt,wTgt,{plain:1})+kpi('缺口',wHave,wTgt,{gapOnly:1}),
+    kpi('自持',wZi,wTgt)+kpi('自购',wGou,wTgt)+kpi('总缺口',wHave,wTgt,{gapOnly:1}),
     '<div class="row"><span class="k">蹲价线：</span>德佑手口80抽 <span class="price">≤6元/包</span> · 极致 ≤4元</div>',
     '自持170抽已标✅（母表13行）· 冬天在家棉柔巾蘸温水为主 · ⚠️避雷MIT/CMIT防腐剂');
   // 衣物按码聚合
