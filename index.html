@@ -384,7 +384,8 @@ function renderMx() {
     html += '<tr><td class="calc2">'+row.r+'</td>';
     for (let ci=1; ci<=19; ci++) {
       const c = numToCol(ci), addr = c+row.r, v = row.cells[c];
-      if (row.r===109 || c==='Q') { html += '<td class="calc2" id="mx-'+addr+'"></td>'; }
+      if (c === 'Q') continue;  // Q列已移除，不渲染
+      if (row.r===109) { html += '<td class="calc2" id="mx-'+addr+'"></td>'; }
       else {
         html += '<td class="ce" data-band="mx" data-addr="'+addr+'" contenteditable="true">'+escapeHtml(v==null?'':fmt(v))+'</td>';
       }
@@ -438,16 +439,10 @@ function recalc() {
   renderDashboards();
 }
 function recalcMx() {
-  for (let r=100; r<=105; r++) { let rowsum=0;
-    for (let ci=2; ci<=16; ci++) rowsum += num('mx', numToCol(ci)+r);
-    const el=document.getElementById('mx-Q'+r); if(el) el.textContent=rowsum;
-  }
   for (let ci=2; ci<=18; ci++) { let csum=0;
     for (let r=100; r<=105; r++) csum += num('mx', numToCol(ci)+r);
     const el=document.getElementById('mx-'+numToCol(ci)+'109'); if(el) el.textContent=csum;
   }
-  let g=0; for (let ci=2; ci<=17; ci++) g += num('mx', numToCol(ci)+'109');
-  const ge=document.getElementById('mx-Q109'); if(ge) ge.textContent=g;
 }
 
 /* ---------- 指挥台渲染 ---------- */
