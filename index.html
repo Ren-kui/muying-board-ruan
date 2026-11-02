@@ -484,22 +484,30 @@ function renderDashboards() {
   });
   document.getElementById('diaperKpi').innerHTML = k;
   document.getElementById('diaperBar').style.width = Math.min(100, Math.round(sumHave/tSum*100))+'%';
-  // 其它消耗品
+  // 云柔巾：按品牌分组（可心柔/德佑）
   const tisHave = rowHave(11)+rowHave(12), tisTgt = num('main','J11')+num('main','J12');
+  const kxHave = rowHave(11), kxTgt = num('main','J11');
+  const dyHave = rowHave(12), dyTgt = num('main','J12');
   miniBoard('tissue','🧻 云柔巾（抽）', tisHave>=tisTgt?'b-ok':'b-part', tisHave>=tisTgt?'✅ 毕业':'基本毕业',
-    kpi('已有',tisHave,tisTgt)+kpi('目标(0-3月)',tisTgt,tisTgt,{plain:1})+kpi('缺口',tisHave,tisTgt,{gapOnly:1}),
-    '<div class="row"><span class="k">蹲价线：</span><span class="price">≤0.045/抽</span> 可囤 · <span class="price">≤0.03</span> 闭眼 · &gt;0.06 被割</div><div class="row"><span class="k">规格：</span><span class="spec">S/M码 3层（140×190）</span>· 可心柔别为"V9"加钱 · 德佑备选</div>',
-    '已购 '+tisHave+' 抽（可心柔900@0.0216+德佑1000@0.02）→ 38节看余量再补');
+    kpi('可心柔',kxHave,kxTgt)+kpi('德佑',dyHave,dyTgt)+kpi('合计',tisHave,tisTgt),
+    '<div class="row"><span class="k">蹲价线：</span><span class="price">≤0.045/抽</span> 可囤 · <span class="price">≤0.03</span> 闭眼 · &gt;0.06 被割</div><div class="row"><span class="k">分工：</span><span class="spec">可心柔</span> 擦嘴脸(软) · <span class="spec">德佑</span> 擦屁屁(大张便宜) · 别为"V9"加钱</div>',
+    '已购 '+tisHave+' 抽 → 38节看余量补'+Math.max(0,dyTgt-dyHave)+'抽德佑');
+  // 棉柔巾：按规格分组（15×20 / 20×20）
   const cotHave = rowHave(9)+rowHave(10), cotTgt = num('main','J9')+num('main','J10');
+  const mHave = rowHave(9), mTgt = num('main','J9');
+  const lHave = rowHave(10), lTgt = num('main','J10');
   miniBoard('cotton','🧽 棉柔巾（抽）','b-todo','3个月量·已开囤',
-    kpi('已有',cotHave,cotTgt)+kpi('目标(0-3月)',cotTgt,cotTgt,{plain:1})+kpi('缺口',cotHave,cotTgt,{gapOnly:1}),
-    '<div class="row"><span class="k">蹲价线：</span>婴儿款 <span class="price">≤0.11/抽</span> · 成人款 <span class="price">≤0.09/抽</span></div><div class="row"><span class="k">规格：</span><span class="spec">15×20cm 甜点位70%</span>· 成人款20×20平替20% · ⚠️12×20陷阱别买</div>',
-    '母表9-10行：已囤 '+cotHave+' 抽 / 花费 '+num('main','I9').toFixed(2)+' 元（≈'+(num('main','I9')/Math.max(cotHave,1)).toFixed(3)+' 元/抽）· 距 '+cotTgt+' 目标还差 '+Math.max(0,cotTgt-cotHave)+' 抽');
+    kpi('15×20款',mHave,mTgt)+kpi('20×20成人款',lHave,lTgt)+kpi('合计',cotHave,cotTgt),
+    '<div class="row"><span class="k">蹲价线：</span>婴儿款 <span class="price">≤0.11/抽</span> · 成人款 <span class="price">≤0.09/抽</span></div><div class="row"><span class="k">分工：</span><span class="spec">15×20</span> 擦屁屁主力70% · <span class="spec">20×20</span> 平替20% · ⚠️12×20陷阱别买</div>',
+    '母表9-10行：已囤 '+cotHave+' 抽（15×20:'+mHave+' / 成人款:'+lHave+'）· 距目标差 '+Math.max(0,cotTgt-cotHave)+' 抽');
+  // 隔尿垫：一次性分尺寸 + 水洗分尺寸
   const padM = rowHave(14), padL = rowHave(15);
-  miniBoard('pad','🛡️ 一次性隔尿垫（片）','b-todo','监控中·已开囤',
-    kpi('M码',padM,num('main','J14'))+kpi('L码',padL,num('main','J15'))+kpi('合计',padM+padL,num('main','J14')+num('main','J15')),
-    '<div class="row"><span class="k">银装M：</span><span class="price">≤0.45/片</span>（闭眼0.40）· <span class="k">金装M：</span><span class="price">≤0.50</span> · L：银≤0.9/金≤1.0</div><div class="row"><span class="k">规格：</span><span class="spec">德佑银装 M33×45</span> 主囤 · 十月结晶/子初备选</div>',
-    '母表14-15行：M '+padM+' 片 / L '+padL+' 片 · 最低0.385/片已破0.40闭眼线 ✅ · ⏰ cron 监控中 · M&lt;0.25=杂牌红线');
+  const washS = rowHave(16), washL = rowHave(17);
+  const washLTgt = num('main','J17');
+  miniBoard('pad','🛡️ 隔尿垫（片/条）','b-todo','监控中·已开囤',
+    kpi('一次性M33×45',padM,num('main','J14'))+kpi('一次性L45×60',padL,num('main','J15'))+kpi('水洗70×100',washL,Math.max(washLTgt,1))+kpi('合计',padM+padL+washS+washL,num('main','J14')+num('main','J15')+washLTgt),
+    '<div class="row"><span class="k">一次性价线：</span><span class="price">≤0.45/片</span>（闭眼0.40）· 水洗70×100≤15/条</div><div class="row"><span class="k">分工：</span><span class="spec">一次性M</span> 主力换尿 · <span class="spec">一次性L</span> 外出垫 · <span class="spec">水洗</span> 铺床防漏（可反复洗）</div>',
+    '母表14-17行：一次性M '+padM+' / L '+padL+' · 水洗30×45:'+washS+'条 / 70×100:'+washL+'条 · ⏰ cron监控M≤0.45');
   const wHave = rowHave(13), wTgt = num('main','J13');
   miniBoard('wipes','💧 湿巾','b-wait','低优先·618主战场',
     kpi('已有(自持)',wHave,wTgt)+kpi('本次目标',wTgt,wTgt,{plain:1})+kpi('缺口',wHave,wTgt,{gapOnly:1}),
