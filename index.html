@@ -379,12 +379,13 @@ function renderReg() {
 function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function renderMx() {
-  let html = '<tr><th>#</th>' + Array.from({length:19},(_,i)=>'<th>'+numToCol(i+1)+'</th>').join('') + '</tr>';
+  let html = '<tr><th>#</th>' + Array.from({length:20},(_,i)=>'<th>'+numToCol(i+1)+'</th>').join('') + '</tr>';
   state.mx.forEach(row => {
     html += '<tr><td class="calc2">'+row.r+'</td>';
-    for (let ci=1; ci<=19; ci++) {
+    for (let ci=1; ci<=20; ci++) {
       const c = numToCol(ci), addr = c+row.r, v = row.cells[c];
       if (c === 'Q') continue;  // Q列已移除，不渲染
+      if (c === 'T' && row.r!==101 && row.r!==109) continue;  // T列仅表头+总计行
       if (row.r===109) { html += '<td class="calc2" id="mx-'+addr+'"></td>'; }
       else {
         html += '<td class="ce" data-band="mx" data-addr="'+addr+'" contenteditable="true">'+escapeHtml(v==null?'':fmt(v))+'</td>';
@@ -443,6 +444,8 @@ function recalcMx() {
     for (let r=100; r<=105; r++) csum += num('mx', numToCol(ci)+r);
     const el=document.getElementById('mx-'+numToCol(ci)+'109'); if(el) el.textContent=csum;
   }
+  let t=0; for (let ci=2; ci<=18; ci++) t += num('mx', numToCol(ci)+'109');
+  const te=document.getElementById('mx-T109'); if(te) te.textContent=t;
 }
 
 /* ---------- 指挥台渲染 ---------- */
