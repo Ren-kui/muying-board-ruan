@@ -538,7 +538,7 @@ function renderChart() {
       {name:'自购(黑金帮·onneo·宜婴·大王·可优比·露安适)',type:'bar',stack:'have',data:gou,itemStyle:{color:'#c0392b'}}
     ];
     series[0].markLine={symbol:'none',animation:false,silent:true,lineStyle:{color:'#f0b429',type:'dashed',width:1.5},label:{color:'#f0b429',fontSize:10,position:'end',formatter:function(p){return p.name+' 目标';}},data:SIZES.slice(0,5).map(s=>([{coord:[s,0]},{coord:[s,TGT[s]]}]))};
-    window._chart.setOption({backgroundColor:'transparent',textStyle:{color:'#c8d0e0'},grid:{left:44,right:16,top:34,bottom:52},legend:{top:0,textStyle:{color:'#aeb8cc',fontSize:11},itemWidth:12,itemHeight:8},tooltip:{trigger:'axis',axisPointer:{type:'shadow'},backgroundColor:'#232d42',borderWidth:0,textStyle:{color:'#e8ecf4'}},xAxis:{type:'category',data:SIZES,axisLine:{lineStyle:{color:'#3a4660'}},axisLabel:{color:'#aeb8cc'}},yAxis:{type:'value',splitLine:{lineStyle:{color:'#232d42'}},axisLabel:{color:'#8b95a8'}},series:series}, true);
+    window._chart.setOption({backgroundColor:'transparent',textStyle:{color:'#c8d0e0'},grid:{left:44,right:16,top:34,bottom:52},legend:{top:0,textStyle:{color:'#aeb8cc',fontSize:11},itemWidth:12,itemHeight:8,formatter:function(n){return n.length>10?'自购(6品牌)':n;}},tooltip:{trigger:'axis',axisPointer:{type:'shadow'},backgroundColor:'#232d42',borderWidth:0,textStyle:{color:'#e8ecf4'}},xAxis:{type:'category',data:SIZES,axisLine:{lineStyle:{color:'#3a4660'}},axisLabel:{color:'#aeb8cc'}},yAxis:{type:'value',splitLine:{lineStyle:{color:'#232d42'}},axisLabel:{color:'#8b95a8'}},series:series}, true);
   } catch(e){}
 }
 
